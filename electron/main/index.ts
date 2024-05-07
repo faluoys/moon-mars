@@ -11,7 +11,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 //
 // ├─┬ dist-electron
 // │ ├─┬ main
-// │ │ └── index.js    > Electron-Main
+// │ │ └── index.ts    > Electron-Main
 // │ └─┬ preload
 // │   └── index.mjs   > Preload-Scripts
 // ├─┬ dist
@@ -45,7 +45,12 @@ const indexHtml = path.join(RENDERER_DIST, 'index.html')
 async function createWindow() {
   win = new BrowserWindow({
     title: 'Main window',
-    icon: path.join(process.env.VITE_PUBLIC, 'favicon.ico'),
+    width: 900, // 窗口宽度
+    height: 670, // 窗口高度
+    show: false, // 初始时不显示窗口
+    frame: false, // 设置为 false 以移除窗口的默认边框
+    autoHideMenuBar: true, // 自动隐藏菜单栏
+    icon: path.join(process.env.VITE_PUBLIC, 'mars.png'),
     webPreferences: {
       preload,
       // Warning: Enable nodeIntegration and disable contextIsolation is not secure in production
@@ -55,6 +60,15 @@ async function createWindow() {
       // Read more on https://www.electronjs.org/docs/latest/tutorial/context-isolation
       // contextIsolation: false,
     },
+  })
+
+  // 当窗口准备好显示时
+  win.on('ready-to-show', () => {
+    // 在窗口准备好显示之后执行其他操作
+    // 例如加载数据、设置界面等
+
+    // 最后调用 show() 方法显示窗口
+    win.show()
   })
 
   if (VITE_DEV_SERVER_URL) { // #298
@@ -78,8 +92,57 @@ async function createWindow() {
   // win.webContents.on('will-navigate', (event, url) => { }) #344
 }
 
-app.whenReady().then(createWindow)
+// app.whenReady().then(createWindow)
+// 当 Electron 初始化完成并准备创建浏览器窗口时
+app.whenReady().then(() => {
+  //拖拽窗口
+  ipcMain.handle('drag-window', (event, args) => {
+    const webContents = event.sender
+    const win = BrowserWindow.fromWebContents(webContents)
+    if (win) {
+      win.setBounds({ x: args.appX, y: args.appY, width: args.width, height: args.height })
+    }
+    console.log(path.join(process.env.VITE_PUBLIC, 'logo.svg'))
+  })
 
+  // IPC 测试
+  ipcMain.on('window', (event, args) => {
+    const webContents = event.sender
+    const win = BrowserWindow.fromWebContents(webContents) // 从webContents获取相应的窗口对象
+    switch (args.name) {
+      case 'maximize':
+        if (win.isMaximized()) {
+          win.restore();
+        } else {
+          win.maximize();
+        }
+        break;
+      case 'minimize':
+        win.minimize();
+        break;
+      case 'hide':
+        win.hide(); // 隐藏窗口到任务栏
+        break;
+      case 'close':
+        win.close();
+        break;
+      default:
+        break;
+    }
+    // 发送窗口当前状态给渲染进程
+    event.sender.send('window-state-changed', {
+      maximized: win.isMaximized(),
+      minimized: win.isMinimized(),
+    });
+  })
+
+  createWindow() // 创建窗口
+
+  // 在 macOS 上，当应用程序处于激活状态但没有窗口打开时，重新创建一个窗口
+  app.on('activate', function () {
+    if (BrowserWindow.getAllWindows().length === 0) createWindow()
+  })
+})
 app.on('window-all-closed', () => {
   win = null
   if (process.platform !== 'darwin') app.quit()

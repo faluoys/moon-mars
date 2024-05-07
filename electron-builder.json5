@@ -1,11 +1,17 @@
 // @see https://www.electron.build/configuration/configuration
 {
   "$schema": "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
-  "appId": "YourAppID",
+  "appId": "com.${productName}.app",
   "asar": true,
-  "productName": "YourAppName",
+  "productName": "moon-mars",
   "directories": {
     "output": "release/${version}"
+  },
+  publish: {
+    owner: "faluoys",
+    provider: "github",
+    repo: "moon-mars-app",
+    releaseType: "release"
   },
   "files": [
     "dist",
@@ -15,7 +21,8 @@
     "target": [
       "dmg"
     ],
-    "artifactName": "${productName}-Mac-${version}-Installer.${ext}"
+    "artifactName": "${productName}-Mac-${version}-Installer.${ext}",
+    "icon": "public/mars.png"
   },
   "win": {
     "target": [
@@ -26,18 +33,27 @@
         ]
       }
     ],
-    "artifactName": "${productName}-Windows-${version}-Setup.${ext}"
+    "artifactName": "${productName}-Windows-${version}-Setup.${ext}",
+    "icon": "public/mars.png"
   },
   "nsis": {
     "oneClick": false,
     "perMachine": false,
+    "allowElevation": true,
     "allowToChangeInstallationDirectory": true,
+    "createStartMenuShortcut": true,
+    "runAfterFinish": false,
+    "createDesktopShortcut": "always",
+    "artifactName": "${productName}-${version}-setup.${ext}",
+    "shortcutName": "${productName}",
+    "uninstallDisplayName": "${productName}",
     "deleteAppDataOnUninstall": false
   },
   "linux": {
     "target": [
       "AppImage"
     ],
-    "artifactName": "${productName}-Linux-${version}.${ext}"
+    "artifactName": "${productName}-Linux-${version}.${ext}",
+    "icon": "public/mars.png"
   }
 }

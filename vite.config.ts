@@ -3,6 +3,11 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import electron from 'vite-plugin-electron/simple'
 import pkg from './package.json'
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
+import tailwindcss from 'tailwindcss';
+import {resolve} from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
@@ -13,8 +18,44 @@ export default defineConfig(({ command }) => {
   const sourcemap = isServe || !!process.env.VSCODE_DEBUG
 
   return {
+    resolve: {
+      alias: {
+        '@': resolve('src')
+      }
+    },
+    css: {
+      postcss: {
+        plugins: [tailwindcss],
+      }
+    },
+    base: './',
     plugins: [
       vue(),
+      AutoImport({
+        include: [
+            /.(vue)$/,
+            /.(js|jsx|ts|tsx)$/,
+            /.(cjs|mjs)$/,
+            /.(json|json5)$/,
+        ],
+        imports: [
+          'vue',
+          'vue-router',
+          {
+            'naive-ui': [
+              'useDialog',
+              'useMessage',
+              'useNotification',
+              'useLoadingBar'
+            ]
+          }
+        ],
+        dts: 'types/auto-imports.d.ts'
+      }),
+      Components({
+        resolvers: [NaiveUiResolver()],
+        dts: 'types/components.d.ts'
+      }),
       electron({
         main: {
           // Shortcut of `build.lib.entry`
@@ -59,7 +100,9 @@ export default defineConfig(({ command }) => {
         // Ployfill the Electron and Node.js API for Renderer process.
         // If you want use Node.js in Renderer process, the `nodeIntegration` needs to be enabled in the Main process.
         // See 👉 https://github.com/electron-vite/vite-plugin-electron-renderer
-        renderer: {},
+        renderer: {
+
+        },
       }),
     ],
     server: process.env.VSCODE_DEBUG && (() => {

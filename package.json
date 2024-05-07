@@ -1,9 +1,9 @@
 {
-  "name": "electron-vue-vite",
-  "version": "28.1.0",
+  "name": "moon-mars",
+  "version": "1.0.0",
   "main": "dist-electron/main/index.js",
-  "description": "Really simple Electron + Vue + Vite boilerplate.",
-  "author": "草鞋没号 <308487730@qq.com>",
+  "description": "Electron + Vue + Vite boilerplate.",
+  "author": "faluoys <1733524815@qq.com>",
   "license": "MIT",
   "private": true,
   "keywords": [
@@ -24,12 +24,25 @@
     "build": "vue-tsc --noEmit && vite build && electron-builder",
     "preview": "vite preview"
   },
+  "dependencies": {
+    "vue-i18n": "^9.13.1",
+    "vue-router": "^4.3.2"
+  },
   "devDependencies": {
+    "@vicons/antd": "^0.12.0",
+    "@vicons/ionicons5": "^0.12.0",
     "@vitejs/plugin-vue": "^5.0.4",
     "electron": "^29.1.1",
     "electron-builder": "^24.13.3",
+    "less": "^4.2.0",
+    "less-loader": "^12.2.0",
+    "naive-ui": "^2.38.2",
+    "tailwindcss": "^3.4.3",
     "typescript": "^5.4.2",
+    "vfonts": "^0.0.3",
     "vite": "^5.1.5",
+    "unplugin-auto-import": "^0.17.5",
+    "unplugin-vue-components": "^0.26.0",
     "vite-plugin-electron": "^0.28.4",
     "vite-plugin-electron-renderer": "^0.14.5",
     "vue": "^3.4.21",

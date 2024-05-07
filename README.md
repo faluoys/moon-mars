@@ -1,4 +1,4 @@
-# electron-vite-vue
+# moon-mars
 
 🥳 Really simple `Electron` + `Vue` + `Vite` boilerplate.
 
@@ -26,13 +26,13 @@
 git clone https://github.com/electron-vite/electron-vite-vue.git
 
 # enter the project directory
-cd electron-vite-vue
+cd moon-mars
 
 # install dependency
-npm install
+pnpm install
 
 # develop
-npm run dev
+pnpm run dev
 ```
 
 ## Debug
