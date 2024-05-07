@@ -66,7 +66,6 @@ async function createWindow() {
   win.on('ready-to-show', () => {
     // 在窗口准备好显示之后执行其他操作
     // 例如加载数据、设置界面等
-
     // 最后调用 show() 方法显示窗口
     win.show()
   })
