@@ -1,4 +1,4 @@
-// installer.nsh
+!define APPNAME "moon-mars"
 !macro preInit
     SetRegView 64
     ReadRegStr $0 HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\{GUID}" "UninstallString"
