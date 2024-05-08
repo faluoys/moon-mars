@@ -1,6 +1,6 @@
 {
   "name": "moon-mars",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "dist-electron/main/index.js",
   "description": "Electron + Vue + Vite boilerplate.",
   "author": "faluoys <1733524815@qq.com>",
