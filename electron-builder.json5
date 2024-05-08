@@ -19,24 +19,27 @@
   ],
   "mac": {
     "target": [
-      "dmg"
+      "dmg",
+      "zip" // 这里注意更新的时候，mac只认zip格式的包
     ],
     "artifactName": "${productName}-Mac-${version}-Installer.${ext}",
-    "icon": "public/mars.png"
+    "icon": "build/mars.png"
   },
   "win": {
     "target": [
       {
         "target": "nsis",
         "arch": [
-          "x64"
+          "ia32", // 32位
+          "x64" // 64位
         ]
       }
     ],
     "artifactName": "${productName}-Windows-${version}-Setup.${ext}",
-    "icon": "public/mars.png"
+    "icon": "build/mars.png"
   },
   "nsis": {
+    "include": './build/installer.nsh',
     "oneClick": false,
     "perMachine": false,
     "allowElevation": true,
@@ -54,6 +57,6 @@
       "AppImage"
     ],
     "artifactName": "${productName}-Linux-${version}.${ext}",
-    "icon": "public/mars.png"
+    "icon": "build/mars.png"
   }
 }

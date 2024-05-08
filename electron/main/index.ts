@@ -101,7 +101,6 @@ app.whenReady().then(() => {
     if (win) {
       win.setBounds({ x: args.appX, y: args.appY, width: args.width, height: args.height })
     }
-    console.log(path.join(process.env.VITE_PUBLIC, 'logo.svg'))
   })
 
   // IPC 测试
