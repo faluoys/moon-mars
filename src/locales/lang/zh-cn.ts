@@ -13,6 +13,19 @@ export default {
         settings: '设置',
         profile: '个人资料',
         account: '账号',
+        system: '系统',
+    },
+    system: {
+        BeforeExitingTheApplication: '退出应用前',
+        MinimizeToSystemTray: '最小化到系统托盘',
+        ExitApplication: '退出应用',
+        NotPromptingAgain: '不再提示',
+    },
+    public: {
+        save: '保存',
+        confirmExit: '确定退出',
+        cancel: '取消',
+        confirm: '确定',
     },
     login: {
         slogan: '最精简的基础权限框架系统',

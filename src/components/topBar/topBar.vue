@@ -1,24 +1,24 @@
 <template>
   <n-layout-header
-    @mousedown="mousedown"
-    class="topBar"
-    style="height: 55px;display: flex"
-
+      @mousedown="mousedown"
+      class="topBar"
+      style="min-height: 55px;display: flex"
   >
     <div class="flex justify-between items-center w-full">
-      <div class="flex flex-1 justify-around max-w-[300px]">
-        Electron
+      <div class="flex pl-10 justify-around max-w-[300px]" style="align-items: center;">
+        <img style="width: 30px;margin-right: 5px" src="../../assets/logo.svg" alt="">
+        <div>Moon-Mars</div>
       </div>
       <div class="flex-auto text-3xl font-bold font-serif text-center cursor-pointer">
-        Electron
+        Moon-Mars
       </div>
       <div class="flex justify-around flex-1 max-w-[300px]">
         <n-dropdown
-          placement="bottom-start"
-          trigger="click"
-          size="medium"
-          :options="options"
-          @select="handleSelect"
+            placement="bottom-start"
+            trigger="click"
+            size="medium"
+            :options="options"
+            @select="handleSelect"
         >
           <n-button @click="Languages" text class="text-2xl justify-center">
             <n-icon>
@@ -46,18 +46,35 @@
             <component :is="fullScreen"/>
           </n-icon>
         </n-button>
-        <n-button @click="closeWin" text class="text-2xl justify-center">
+        <n-button @click="handleClose" text class="text-2xl justify-center">
           <n-icon>
             <CloseOutline/>
           </n-icon>
         </n-button>
       </div>
     </div>
+    <n-modal
+        v-model:show="showModal"
+        preset="dialog"
+        title="Dialog"
+    >
+      <template #header>
+        <div>{{ $t('public.confirmExit') }}</div>
+      </template>
+      <template class="flex p-3 flex-col gap-3">
+        <systemBar />
+      </template>
+      <template #action>
+        <n-button @click="cancel">{{$t('public.cancel')}}</n-button>
+        <n-button @click="confirm" type="primary">{{$t('public.confirm')}}</n-button>
+      </template>
+    </n-modal>
   </n-layout-header>
 </template>
 <script setup lang="ts">
-import {ref,reactive, shallowRef,onMounted,computed} from "vue";
-import {NIcon, createLocale, useMessage, zhCN,enUS,dateZhCN} from "naive-ui";
+import {ref, reactive, shallowRef, onMounted, computed} from "vue";
+import {useRouter, useRoute} from "vue-router";
+import {NIcon} from "naive-ui";
 import {
   Settings,
   CloseOutline,
@@ -70,37 +87,41 @@ import {
 import {FullscreenOutlined, FullscreenExitOutlined,} from "@vicons/antd";
 import {useI18n} from "vue-i18n";
 import {renderIcon} from "@/utils";
-const { ipcRenderer } = window
-const {t,locale} = useI18n();
+import systemBar from "@/components/systemBar/systemBar.vue";
+
+const router = useRouter();
+const {ipcRenderer} = window
+const {t, locale} = useI18n();
 const iconShow = ref(true);
+const showModal = ref(false);
 const options = computed(() => {
-    return [
-        {
-            label: '简体中文',
-            key: 'zh-cn',
-            icon: iconShow.value ? renderIcon(Checkmark) : null,
-        },
-        {
-            label: 'English',
-            key: 'en',
-            icon: !iconShow.value ? renderIcon(Checkmark) : null,
-        },
-    ]
+  return [
+    {
+      label: '简体中文',
+      key: 'zh-cn',
+      icon: iconShow.value ? renderIcon(Checkmark) : null,
+    },
+    {
+      label: 'English',
+      key: 'en',
+      icon: !iconShow.value ? renderIcon(Checkmark) : null,
+    },
+  ]
 })
 const emits = defineEmits(['locale']);
-const handleSelect= (key:string)=> {
+const handleSelect = (key: string) => {
   iconShow.value = key === 'zh-cn';
   emits('locale', key);
 }
 onMounted(() => {
-    iconShow.value = locale.value === 'zh-cn';
+  iconShow.value = locale.value === 'zh-cn';
 })
 
 
 const isKeyDown = ref(false);
 const lastX = ref(0);
 const lastY = ref(0);
-const mousedown = (e:MouseEvent) => {
+const mousedown = (e: MouseEvent) => {
   isKeyDown.value = true;
   lastX.value = e.x
   lastY.value = e.y
@@ -137,7 +158,7 @@ const toggle = () => {
   currentIcon.value = currentIcon.value === SunnyIcon ? MoonIcon : SunnyIcon;
 }
 const settings = () => {
-  alert(1)
+  router.push({name: 'settings-system'})
 }
 const toggleFullScreen = () => {
   fullScreen.value = fullScreen.value === FullscreenOutlined ? FullscreenExitOutlined : FullscreenOutlined;
@@ -148,6 +169,42 @@ const toggleFullScreen = () => {
 const minimizeScreen = () => {
   ipcRenderer.send('window', {
     name: 'minimize'
+  })
+}
+
+const handleClose = () => {
+  const systemKey = localStorage.getItem('systemKey')
+  const remindKey = localStorage.getItem('remindKey') === 'true'
+  // console.log(remindKey)
+  if (remindKey) {
+    if (systemKey == '0') {
+      trayHideWin()
+    } else if (systemKey == '1') {
+      closeWin()
+    }
+    return;
+  }
+  showModal.value = true;
+}
+
+const confirm = () => {
+  const systemKey = localStorage.getItem('systemKey')
+  if (systemKey == '0') {
+    trayHideWin()
+  } else if (systemKey == '1') {
+    closeWin()
+  }
+  if (location.href.includes('/settings/system')){
+    router.go(0)
+  }
+  cancel()
+}
+const cancel = () => {
+  showModal.value = false;
+}
+const trayHideWin = () => {
+  ipcRenderer.send('window', {
+    name: 'hide'
   })
 }
 const closeWin = () => {
@@ -162,5 +219,11 @@ const closeWin = () => {
 .topBar {
   z-index: 999;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.4);
+}
+:deep(.n-space) {
+  flex-direction: column !important;
+}
+:deep(.n-dialog__title) {
+  justify-content: center!important;
 }
 </style>

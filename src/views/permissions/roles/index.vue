@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import { defineComponent, reactive } from 'vue'
+import {useTableHeight} from "@/hooks/useTableHeight";
+const {tableHeight} = useTableHeight()
 const paginationReactive = reactive({
-  page: 2,
-  pageSize: 5,
+  page: 1,
+  pageSize: 10,
   showSizePicker: true,
-  pageSizes: [3, 5, 7],
+  pageSizes: [10, 20, 30],
+  showQuickJumper: true,
+  displayOrder: ['size-picker', 'pages', 'quick-jumper'],
   onChange: (page:number) => {
     paginationReactive.page = page
   },
@@ -40,5 +44,8 @@ const data = Array.from({ length: 46 }).map((_, index) => ({
 </template>
 
 <style scoped>
-
+:deep(.n-data-table-wrapper) {
+  max-height: v-bind(tableHeight+'px');
+  overflow-y: scroll!important;
+}
 </style>

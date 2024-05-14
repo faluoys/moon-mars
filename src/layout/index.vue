@@ -1,5 +1,5 @@
 <template>
-  <n-config-provider class="w-full" :theme="theme" :locale="locale" :date-locale="dateZhCN">
+  <n-config-provider class="w-full" :theme="theme" :theme-overrides="theme === lightTheme ? lightThemeOverrides : darkThemeOverrides" :locale="locale" :date-locale="dateZhCN">
     <n-message-provider>
       <div class="w-full h-screen">
         <n-space class="w-full h-screen" vertical>
@@ -33,7 +33,7 @@
               </n-layout-content>
             </n-layout>
             <n-layout-footer class="footer">
-              {{ $t('login.slogan') }}
+              Copyright © {{ new Date().getFullYear() }} Moon-Mars Inc.
             </n-layout-footer>
           </n-layout>
         </n-space>
@@ -57,21 +57,23 @@ import {
 } from "vue";
 import {useRouter} from "vue-router";
 import topBar from '../components/topBar/topBar.vue'
-import {darkTheme, lightTheme, NIcon, dateZhCN,MenuOption} from 'naive-ui'
+import {NConfigProvider,darkTheme, lightTheme, NIcon, dateZhCN,MenuOption} from 'naive-ui'
 import {
   Home,
   DesktopSharp,
   AnalyticsOutline as AnalyticsIcon,
   DocumentsSharp,
   SettingsSharp,
+  Options as OptionsIcon,
 } from "@vicons/ionicons5";
 import {ShopFilled, UserAddOutlined, ProfileFilled,AccountBookFilled,UsergroupDeleteOutlined, DashboardFilled as DashboardIcon,} from "@vicons/antd";
 import {useI18n} from 'vue-i18n'
 import i18n from "@/locales";
 import {renderIcon} from "@/utils";
+import {themeOverrides,lightThemeOverrides,darkThemeOverrides,theme} from "@/theme/theme";
 let { proxy } = getCurrentInstance() as ComponentInternalInstance;
 
-let locale = computed(() => {
+let locale:any = computed(() => {
   const locales = (proxy?.$i18n?.locale || 'en') as string;
   return i18n.global.messages.value[locales]?.el || '';
 })
@@ -82,13 +84,12 @@ const toggleLanguages = (val: string) => {
   }
   localStorage.setItem('lang', val);
 };
-const theme = shallowRef(lightTheme)
 const toggleTheme = () => {
   theme.value = theme.value === lightTheme ? darkTheme : lightTheme
 }
 const router = useRouter();
 const onChange = (key:string, option:MenuOption) => {
-  console.log(key, option)
+  // console.log(key, option)
   router.push({name: key})
 }
 
@@ -107,7 +108,7 @@ const menuOptions = computed(() => {
       children: [
         {
           label: t('menu.productManagement'),
-          key: "permissions-index",
+          key: "permissions-product",
           icon: renderIcon(ShopFilled)
         },
         {
@@ -155,6 +156,11 @@ const menuOptions = computed(() => {
           key: "settings-account",
           icon: renderIcon(AccountBookFilled)
         },
+        {
+          label: t('menu.system'),
+          key: "settings-system",
+          icon: renderIcon(OptionsIcon)
+        },
         // 可以添加更多的设置选项子菜单项
       ]
     },
@@ -175,7 +181,9 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
 }
-
+:deep(.n-scrollbar-content) {
+  height: 100%;
+}
 .sider {
   z-index: 100;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
@@ -183,6 +191,7 @@ onUnmounted(() => {
 
 .footer {
   text-align: center;
+  font-weight: 600;
   line-height: 49px;
   z-index: 999;
   height: 50px;

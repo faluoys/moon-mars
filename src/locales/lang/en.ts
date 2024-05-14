@@ -4,7 +4,7 @@ export default {
         permission: 'permission',
         roleManagement: 'role management',
         userManagement: 'user management',
-        productManagement: 'product management',
+        productManagement: 'index management',
         systemManagement: 'system management',
         menuManagement: 'menu management',
         analytics: 'analytics',
@@ -13,6 +13,19 @@ export default {
         settings: 'settings',
         profile: 'profile',
         account: 'account',
+        system: 'system',
+    },
+    system: {
+        BeforeExitingTheApplication: 'Before exiting the application',
+        MinimizeToSystemTray: 'Minimize to system tray',
+        ExitApplication: 'Exit application',
+        NotPromptingAgain: 'Not prompting again',
+    },
+    public: {
+        save: 'save',
+        confirmExit: 'confirm exit',
+        cancel: 'cancel',
+        confirm: 'confirm',
     },
     login: {
         slogan: 'The most concise basic permission framework system.',
