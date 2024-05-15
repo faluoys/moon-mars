@@ -10,6 +10,7 @@ export default {
         analytics: 'analytics',
         dashboard: 'dashboard',
         reports: 'reports',
+        _3DPhotoAlbum: '3D photo album',
         settings: 'settings',
         profile: 'profile',
         account: 'account',

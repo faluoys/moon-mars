@@ -91,6 +91,16 @@ const routes: Array<RouteRecordRaw> = [
                 meta: {
                     title: '报告'
                 }
+            },
+            {
+                path: '3DPhotoAlbum',
+                name: 'analytics-3DPhotoAlbum',
+                components: {
+                    menu: () => import('@/views/analytics/photoAlbum/index.vue'),
+                },
+                meta: {
+                    title: '3D相册'
+                }
             }
         ]
     },

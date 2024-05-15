@@ -10,6 +10,7 @@ export default {
         analytics: '数据分析',
         dashboard: '仪表盘',
         reports: '报告',
+        _3DPhotoAlbum: '3D相册',
         settings: '设置',
         profile: '个人资料',
         account: '账号',

@@ -138,7 +138,11 @@ const menuOptions = computed(() => {
           key: "analytics-reports",
           icon: renderIcon(DocumentsSharp)
         },
-        // 可以添加更多的分析功能子菜单项
+        {
+          label: t('menu._3DPhotoAlbum'),
+          key: "analytics-3DPhotoAlbum",
+          icon: renderIcon(DocumentsSharp)
+        },
       ]
     },
     {

@@ -1,12 +1,11 @@
 <template>
   <n-layout-header
       @mousedown="mousedown"
-      class="topBar"
-      style="min-height: 55px;display: flex"
+      class="topBar min-h-[55px] flex"
   >
     <div class="flex justify-between items-center w-full">
-      <div class="flex pl-10 justify-around max-w-[300px]" style="align-items: center;">
-        <img style="width: 30px;margin-right: 5px" src="../../assets/logo.svg" alt="">
+      <div class="flex pl-5 justify-around items-center max-w-[300px]">
+        <img class="w-[30px] mr-1.5" src="../../assets/logo.svg" alt="">
         <div>Moon-Mars</div>
       </div>
       <div class="flex-auto text-3xl font-bold font-serif text-center cursor-pointer">
