@@ -3,12 +3,15 @@ import {ref} from 'vue'
 import ms from '@/assets/ms/1.mp3'
 
 const selectedMusic = ref(ms)
-const selectMusic = (e: any) => {
-  const file = e.target.files[0]
-  const reader = new FileReader()
-  reader.readAsDataURL(file)
-  reader.onload = (e) => {
-    selectedMusic.value = e.target.result
+const selectMusic = (e: Event) => {
+  const file = (e.target as HTMLInputElement).files[0]
+  if (file) {
+    // selectedMusic.value = URL.createObjectURL(file);
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = (ev: ProgressEvent<FileReader>) => {
+      selectedMusic.value = (ev.target as FileReader).result as string;
+    }
   }
 }
 </script>
@@ -62,7 +65,7 @@ const selectMusic = (e: any) => {
     </div>
   </div>
   <div class="audio">
-    <audio autoplay="autoplay" controls="controls" loop="loop" preload="auto"
+    <audio :autoplay="true" :controls="true" :loop="true" preload="auto"
            :src="selectedMusic">
       你的浏览器版本太低，不支持audio标签
     </audio>
