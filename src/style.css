@@ -51,7 +51,6 @@ html,body {
     display: none;
   }
 }
-
 /*弹框标题居中*/
 .n-dialog .n-dialog__title {
   justify-content: center;
