@@ -4,7 +4,7 @@ import ms from '@/assets/ms/1.mp3'
 
 const selectedMusic = ref(ms)
 const selectMusic = (e: Event) => {
-  const file = (e.target as HTMLInputElement).files[0]
+  const file = (e.target as HTMLInputElement).files![0]
   if (file) {
     // selectedMusic.value = URL.createObjectURL(file);
     const reader = new FileReader()
@@ -150,7 +150,7 @@ const selectMusic = (e: Event) => {
 }
 
 .cube span {
-  display: bloack;
+  display: block;
   width: 100px;
   height: 100px;
   position: absolute;

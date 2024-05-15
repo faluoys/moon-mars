@@ -222,7 +222,4 @@ const closeWin = () => {
 :deep(.n-space) {
   flex-direction: column !important;
 }
-:deep(.n-dialog__title) {
-  justify-content: center!important;
-}
 </style>
