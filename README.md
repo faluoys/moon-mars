@@ -1,13 +1,13 @@
 # moon-mars
 
-🥳 Really simple `Electron` + `Vue` + `Vite` boilerplate.
+🥳 A streamlined `Electron` + `Vue` + `Vite` + `Naive UI` boilerplate for building desktop applications.
 
 <!-- [![awesome-vite](https://awesome.re/mentioned-badge.svg)](https://github.com/vitejs/awesome-vite) -->
 <!-- [![Netlify Status](https://api.netlify.com/api/v1/badges/ae3863e3-1aec-4eb1-8f9f-1890af56929d/deploy-status)](https://app.netlify.com/sites/electron-vite/deploys) -->
 <!-- [![GitHub license](https://img.shields.io/github/license/caoxiemeihao/electron-vite-vue)](https://github.com/electron-vite/electron-vite-vue/blob/main/LICENSE) -->
 <!-- [![GitHub stars](https://img.shields.io/github/stars/caoxiemeihao/electron-vite-vue?color=fa6470)](https://github.com/electron-vite/electron-vite-vue) -->
 <!-- [![GitHub forks](https://img.shields.io/github/forks/caoxiemeihao/electron-vite-vue)](https://github.com/electron-vite/electron-vite-vue) -->
-[![GitHub Build](https://github.com/electron-vite/electron-vite-vue/actions/workflows/build.yml/badge.svg)](https://github.com/electron-vite/electron-vite-vue/actions/workflows/build.yml)
+[![GitHub Build](https://github.com/faluoys/moon-mars/actions/workflows/build.yml/badge.svg)](https://github.com/faluoys/moon-mars/actions/workflows/build.yml)
 [![GitHub Discord](https://img.shields.io/badge/chat-discord-blue?logo=discord)](https://discord.gg/sRqjYpEAUK)
 
 ## Features
@@ -23,7 +23,7 @@
 
 ```sh
 # clone the project
-git clone https://github.com/electron-vite/electron-vite-vue.git
+git clone https://github.com/faluoys/moon-mars.git
 
 # enter the project directory
 cd moon-mars
@@ -35,9 +35,9 @@ pnpm install
 pnpm run dev
 ```
 
-## Debug
+## Demo
 
-![electron-vite-react-debug.gif](https://github.com/electron-vite/electron-vite-react/blob/main/electron-vite-react-debug.gif?raw=true)
+![moon-mars-demo.gif](https://github.com/faluoys/moon-mars/blob/main/moon-mars-demo.gif?raw=true)
 
 ## Directory
 

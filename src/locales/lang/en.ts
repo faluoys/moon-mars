@@ -27,6 +27,8 @@ export default {
         confirmExit: 'confirm exit',
         cancel: 'cancel',
         confirm: 'confirm',
+        delete: 'delete',
+        total: 'total',
     },
     login: {
         slogan: 'The most concise basic permission framework system.',

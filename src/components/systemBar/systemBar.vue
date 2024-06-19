@@ -24,6 +24,10 @@ const updateChecked = (e: boolean) => {
   remind.value = e
   localStorage.setItem('remindKey', remind.value.toString())
 }
+onMounted(() => {
+  localStorage.setItem('systemKey', value.value)
+  localStorage.setItem('remindKey', remind.value.toString())
+})
 defineExpose({
   value,
   remind,

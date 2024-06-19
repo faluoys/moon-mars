@@ -18,12 +18,12 @@ const lightThemeOverrides:GlobalThemeOverrides = {
     }
     // ...
 }
-
 const darkThemeOverrides:GlobalThemeOverrides = {
     Typography: {
         headerBarColor: '#eeeeee',
     }
     // ...
 }
-const theme = shallowRef(lightTheme)
+const savedTheme = localStorage.getItem('theme') as string;
+const theme = shallowRef(JSON.parse(savedTheme) || lightTheme)
 export { themeOverrides, lightThemeOverrides, darkThemeOverrides,theme };

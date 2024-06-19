@@ -2,6 +2,11 @@
 import { defineComponent, reactive } from 'vue'
 import {useTableHeight} from "@/hooks/useTableHeight";
 const {tableHeight} = useTableHeight()
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+interface ItemCountProps {
+  itemCount: number;
+}
 const paginationReactive = reactive({
   page: 1,
   pageSize: 10,
@@ -9,6 +14,9 @@ const paginationReactive = reactive({
   pageSizes: [10, 20, 30],
   showQuickJumper: true,
   displayOrder: ['size-picker', 'pages', 'quick-jumper'],
+  prefix ({ itemCount }: ItemCountProps) {
+    return `${t('public.total')} ${itemCount}`
+  },
   onChange: (page:number) => {
     paginationReactive.page = page
   },
@@ -17,35 +25,66 @@ const paginationReactive = reactive({
     paginationReactive.page = 1
   }
 })
-const columns = [
+interface User {
+  key: number;
+  name: string;
+  role: Role;
+  email: string;
+  permissions: string;
+}
+
+type Role = 'Admin' | 'User' | 'Editor' | 'Viewer';
+
+const columns: Array<{ title: string, key: keyof User,width?: number }> = [
   {
     title: 'Name',
-    key: 'name'
+    key: 'name',
+    width: 80
   },
   {
-    title: 'Age',
-    key: 'age'
+    title: 'Role',
+    key: 'role',
+    width: 80
   },
   {
-    title: 'Address',
-    key: 'address'
+    title: 'Email',
+    key: 'email'
+  },
+  {
+    title: 'Permissions',
+    key: 'permissions'
   }
-]
-const data = Array.from({ length: 46 }).map((_, index) => ({
+];
+
+const roles: Role[] = ['Admin', 'User', 'Editor', 'Viewer'];
+const permissions: string[] = ['read', 'write', 'execute', 'delete'];
+
+const getRandomRole = (): Role => roles[Math.floor(Math.random() * roles.length)];
+
+const getRandomPermissions = (): string => {
+  const perms: string[] = [];
+  permissions.forEach(perm => {
+    if (Math.random() > 0.5) {
+      perms.push(perm);
+    }
+  });
+  return perms.join(', ');
+};
+
+const data: User[] = Array.from({ length: 12 }).map((_, index) => ({
   key: index,
-  name: `Edward King ${index}`,
-  age: 32,
-  address: `London, Park Lane no. ${index}`
-}))
+  name: `User ${index}`,
+  role: getRandomRole(),
+  email: `user${index}@example.com`,
+  permissions: getRandomPermissions()
+}));
 </script>
 <template>
   <div>{{ $t('menu.roleManagement')}}</div>
-  <n-data-table :columns="columns" :data="data" :pagination="paginationReactive" />
+  <div>
+    <n-data-table :columns="columns" :max-height="tableHeight - 50" striped :data="data" :pagination="paginationReactive" />
+  </div>
 </template>
 
 <style scoped>
-:deep(.n-data-table-wrapper) {
-  max-height: v-bind(tableHeight+'px');
-  overflow-y: scroll!important;
-}
 </style>

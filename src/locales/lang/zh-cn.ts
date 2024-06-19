@@ -27,6 +27,8 @@ export default {
         confirmExit: '确定退出',
         cancel: '取消',
         confirm: '确定',
+        delete: '删除',
+        total: '总共',
     },
     login: {
         slogan: '最精简的基础权限框架系统',

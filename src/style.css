@@ -55,3 +55,6 @@ html,body {
 .n-dialog .n-dialog__title {
   justify-content: center;
 }
+/*.n-data-table-tbody {*/
+/*  overflow-y: scroll!important;*/
+/*}*/

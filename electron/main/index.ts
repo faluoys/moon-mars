@@ -3,7 +3,7 @@ import {createRequire} from 'node:module'
 import {fileURLToPath} from 'node:url'
 import path from 'node:path'
 import os from 'node:os'
-
+// app.commandLine.appendSwitch('no-sandbox')
 const require = createRequire(import.meta.url)
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -63,7 +63,7 @@ async function createWindow() {
         },
     })
     // 创建系统托盘
-    tray = new Tray(path.join(__dirname, '../../build/mars.png'));
+    tray = new Tray(path.join(process.env.VITE_PUBLIC, 'mars.png'));
     // 托盘名称
     tray.setToolTip('moon-mars');
     // 托盘菜单

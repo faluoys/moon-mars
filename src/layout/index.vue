@@ -65,6 +65,7 @@ import {
   DocumentsSharp,
   SettingsSharp,
   Options as OptionsIcon,
+  AlbumsOutline as AlbumsIcon,
 } from "@vicons/ionicons5";
 import {ShopFilled, UserAddOutlined, ProfileFilled,AccountBookFilled,UsergroupDeleteOutlined, DashboardFilled as DashboardIcon,} from "@vicons/antd";
 import {useI18n} from 'vue-i18n'
@@ -86,6 +87,7 @@ const toggleLanguages = (val: string) => {
 };
 const toggleTheme = () => {
   theme.value = theme.value === lightTheme ? darkTheme : lightTheme
+  localStorage.setItem('theme', JSON.stringify(theme.value))
 }
 const router = useRouter();
 const onChange = (key:string, option:MenuOption) => {
@@ -107,9 +109,9 @@ const menuOptions = computed(() => {
       icon: renderIcon(DesktopSharp),
       children: [
         {
-          label: t('menu.productManagement'),
-          key: "permissions-product",
-          icon: renderIcon(ShopFilled)
+          label: t('menu.userManagement'),
+          key: "permissions-users",
+          icon: renderIcon(UserAddOutlined)
         },
         {
           label: t('menu.roleManagement'),
@@ -117,9 +119,9 @@ const menuOptions = computed(() => {
           icon: renderIcon(UsergroupDeleteOutlined)
         },
         {
-          label: t('menu.userManagement'),
-          key: "permissions-users",
-          icon: renderIcon(UserAddOutlined)
+          label: t('menu.productManagement'),
+          key: "permissions-product",
+          icon: renderIcon(ShopFilled)
         },
       ]
     },
@@ -141,7 +143,7 @@ const menuOptions = computed(() => {
         {
           label: t('menu._3DPhotoAlbum'),
           key: "analytics-3DPhotoAlbum",
-          icon: renderIcon(DocumentsSharp)
+          icon: renderIcon(AlbumsIcon)
         },
       ]
     },
