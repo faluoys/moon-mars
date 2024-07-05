@@ -152,8 +152,8 @@ const Languages = () => {
 }
 const fullScreen = shallowRef(FullscreenOutlined);
 const currentIcon = shallowRef(MoonIcon);
-const toggle = () => {
-  props?.toggleTheme?.();
+const toggle = (e: MouseEvent) => {
+  props?.toggleTheme?.(e);
   currentIcon.value = currentIcon.value === SunnyIcon ? MoonIcon : SunnyIcon;
 }
 const settings = () => {
@@ -193,7 +193,7 @@ const confirm = () => {
   } else if (systemKey == '1') {
     closeWin()
   }
-  if (location.href.includes('/settings/system')){
+  if (location.href.includes('/settings/system') && !showModal.value){
     router.go(0)
   }
   cancel()

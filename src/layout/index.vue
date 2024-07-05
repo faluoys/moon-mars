@@ -85,10 +85,40 @@ const toggleLanguages = (val: string) => {
   }
   localStorage.setItem('lang', val);
 };
-const toggleTheme = () => {
-  theme.value = theme.value === lightTheme ? darkTheme : lightTheme
-  localStorage.setItem('theme', JSON.stringify(theme.value))
+// const toggleTheme = () => {
+//   theme.value = theme.value === lightTheme ? darkTheme : lightTheme
+//   localStorage.setItem('theme', JSON.stringify(theme.value))
+// }
+const toggleTheme = (e: MouseEvent) => {
+  const x = e.clientX;
+  const y = e.clientY;
+  const endRadius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+  let isDark:boolean;
+  const transition = (document as any).startViewTransition(() => {
+    theme.value = theme.value === lightTheme ? darkTheme : lightTheme
+    localStorage.setItem('theme', JSON.stringify(theme.value))
+    const root = document.documentElement;
+    isDark = root.classList.contains('dark');
+    root.classList.remove(isDark ? 'dark' : 'light');
+    root.classList.add(isDark ? 'light' : 'dark');
+    // root.classList.toggle('dark')
+  })
+
+  transition.ready.then(() => {
+    const clipPath = [`circle(0px at ${x}px ${y}px)`, `circle(${endRadius}px at ${x}px ${y}px`];
+    document.documentElement.animate(
+        {
+          clipPath: isDark ? [...clipPath].reverse() : clipPath
+        },
+        {
+          duration: 500,
+          easing: 'ease-in',
+          pseudoElement: isDark ? '::view-transition-old(root)' : '::view-transition-new(root)'
+        }
+    )
+  })
 }
+
 const router = useRouter();
 const onChange = (key:string, option:MenuOption) => {
   // console.log(key, option)
